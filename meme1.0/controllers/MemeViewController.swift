@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MemeViewController.swift
 //  meme1.0
 //
 //  Created by manar on 25/11/2018.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // MARK: Outlets
     @IBOutlet weak var upperToolbar: UIToolbar!
@@ -28,18 +28,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        shareButton.isEnabled = false
         
-        // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        
-        
-        // no finished memes at start
-        
+        super.viewWillAppear(true)
         
         // make sure that camera is enabled only when available
         
          cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        
+        // make sure there is a pic selected before enabling share button
+        
+         shareButton.isEnabled = imageView.image != nil
+        
         // setting the default text
     
         initializeTextField(topTextField)
@@ -60,7 +62,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        view.endEditing(true)
     }
     
     
@@ -84,6 +86,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             if success {
                 self.saveMemedImage()
                 self.dismiss(animated: true, completion: nil)
+                   self.navigationController?.popViewController(animated: true)
             }
         }
         
@@ -115,13 +118,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imageView.image = image
-            shareButton.isEnabled = true
             self.dismiss(animated: true, completion: nil)
         }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func generateMemedImage() -> UIImage {
@@ -140,7 +142,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func saveMemedImage() {
-        _ = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imageView.image!, memedImage: self.generateMemedImage())
+          _ = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imageView.image!, memedImage: self.generateMemedImage())
+        
+       
     }
     
     
@@ -186,20 +190,5 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // clear textfield for new text
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = ""
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-}
+    }}
 
