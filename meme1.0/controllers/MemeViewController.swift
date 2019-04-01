@@ -121,7 +121,7 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
+    // dismis the pickerController when cancel is pushed
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
