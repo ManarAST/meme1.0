@@ -1,5 +1,5 @@
 //
-//  MemeViewController.swift
+//  EditorViewController.swift
 //  meme1.0
 //
 //  Created by manar on 25/11/2018.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class EditorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // MARK: Outlets
     @IBOutlet weak var upperToolbar: UIToolbar!
@@ -95,11 +95,8 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func cancel(_ sender: Any) {
-        // return everything to default
-        topTextField.text = "TOP"
-        bottomTextField.text = "BOTTOM"
-        imageView.image = nil
-        shareButton.isEnabled = false
+        
+        self.dismiss(animated: true, completion: nil)
         
     }
     
@@ -142,8 +139,10 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func saveMemedImage() {
-          _ = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imageView.image!, memedImage: self.generateMemedImage())
+          let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imageView.image!, memedImage: self.generateMemedImage())
+        (UIApplication.shared.delegate as! AppDelegate).memes.append(meme)
         
+      
        
     }
     
