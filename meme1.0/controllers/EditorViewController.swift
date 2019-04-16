@@ -26,6 +26,9 @@ class EditorViewController: UIViewController, UIImagePickerControllerDelegate, U
         NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
         NSAttributedString.Key.strokeWidth: -2]
     
+    var isUsingBottomDefaultText:Bool = true
+    var isUsingTopDefaultText:Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         shareButton.isEnabled = false
@@ -188,6 +191,21 @@ class EditorViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     // clear textfield for new text
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
-    }}
+        if textField == bottomTextField && isUsingBottomDefaultText {
+            textField.text = ""
+            isUsingBottomDefaultText = false
+        }
+        
+        if textField == topTextField && isUsingTopDefaultText {
+            textField.text = ""
+            isUsingTopDefaultText = false
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+}
 
